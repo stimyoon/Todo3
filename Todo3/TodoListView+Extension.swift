@@ -16,11 +16,8 @@ extension TodoListView {
                         vm.update(todo: $0)
                     } deleteCompletion: { vm.delete(todo: $0)
                     }
-                    .environmentObject(vm)
-                    .environmentObject(categoryVM)
                 } label: {
                     TodoCellView(todo: $todo)
-                        .environmentObject(vm)
                 }
                 .buttonStyle(.plain)
             }
@@ -38,6 +35,13 @@ extension TodoListView {
                         hideKeyboard()
                     } else {
                         addNewTodoWithTextFieldText()
+                    }
+                }
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Button("Done") {
+                            hideKeyboard()
+                        }
                     }
                 }
             Button {

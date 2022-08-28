@@ -15,9 +15,9 @@ struct Todo3App: App {
         WindowGroup {
             NavigationView{
                 TodoListView()
-                    .environmentObject(vm)
-                    .environmentObject(categoryVM)
             }
+            .environmentObject(vm)
+            .environmentObject(categoryVM)
         }
     }
 }

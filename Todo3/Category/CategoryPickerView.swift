@@ -21,8 +21,8 @@ struct CategoryPickerView: View {
                 }
             }
         }else{
-            VStack {
-                Text("\(category.name)")
+            HStack {
+//                Text("\(category.name)")
                 Picker("Category", selection: $category) {
                     ForEach(vm.categories){ category in
                         CategoryRowView(category: category).tag(category)

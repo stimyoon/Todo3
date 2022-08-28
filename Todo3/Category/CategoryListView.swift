@@ -30,7 +30,8 @@ struct CategoryRowView: View {
             Text("\(category.name)")
             Spacer()
             category.color.color
-                .frame(width: 40, height: 40)
+                .opacity(0.4)
+                .frame(width: 30, height: 30)
                 .clipShape(RoundedRectangle(cornerRadius: 10.0))
         }
     }

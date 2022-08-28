@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TodoListView: View {
     @EnvironmentObject var vm: TodoListVM
-    @EnvironmentObject var categoryVM: CategoryDataService
     @State var text = ""
     @State var isDone = false
     @State var showTodoDetailView = false

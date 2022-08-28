@@ -19,50 +19,53 @@ struct TodoDetailView: View {
 
     var body: some View {
         Form{
-            Section("Todo item"){
+            Section{
                 TextField("enter a todo item", text: $todo.text)
                     .focused($isTextFieldFocused)
             }
-            Section("Done"){
+            Section{
                 Picker("isDone", selection: $todo.isDone) {
                         Text("Done").tag(true)
                         Text("Not Done").tag(false)
                 }.pickerStyle(.segmented)
             }
-            Section("Category"){
+            Section{
                 if !categoryVM.categories.isEmpty {
                     HStack{
-                        CategoryCellView(category: category)
+//                        CategoryCellView(category: category)
                         CategoryPickerView(category: $category)
                             .onChange(of: category) { newValue in
                                 todo.category = category
                             }
                     }
                 }
+            }
+            Section{
                 NavigationLink {
                     CategoryListView()
                 } label: {
-                    Text("Manage Category List")
+                    Text("Manage Categories")
                 }
+
             }
-            
-            Section("Priority"){
-                Picker("Priority", selection: $todo.priority) {
-                    ForEach(Priority.allCases){ priority in
-                        Text("\(priority.text)")
-                    }
+
+            Section{
+                HStack{
+                    Text("Priority  ")
+                    Picker("Priority", selection: $todo.priority) {
+                        ForEach(Priority.allCases){ priority in
+                            Text("\(priority.text)")
+                        }
+                    }.pickerStyle(.segmented)
                 }
-                .pickerStyle(.segmented)
-            }
-            Section("Duration"){
-                Picker("Duration", selection: $todo.duration) {
-                    ForEach(Duration.allCases){ duration in
-                        Text("\(duration.text)")
-                    }
+                HStack{
+                    Text("Duration")
+                    Picker("Duration", selection: $todo.duration) {
+                        ForEach(Duration.allCases){ duration in
+                            Text("\(duration.text)")
+                        }
+                    }.pickerStyle(.segmented)
                 }
-                .pickerStyle(.segmented)
-            }
-            Section("Due Date"){
                 DatePicker("Due Date", selection: $todo.dueDate)
             }
 
@@ -74,7 +77,7 @@ struct TodoDetailView: View {
                     Text("Delete")
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent)
+
                 Button {
                     saveCompletion(todo)
                     todo = Todo()
@@ -83,22 +86,22 @@ struct TodoDetailView: View {
                     Text("Save")
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        saveCompletion(todo)
+                        todo = Todo()
+                        dismiss()
+                    } label: {
+                        Text("Save")
+                    }
+
+                }
             }
         }
         .navigationTitle("Edit View")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    saveCompletion(todo)
-                    todo = Todo()
-                    dismiss()
-                } label: {
-                    Text("Save")
-                }
-
-            }
-        }
+   
         .onAppear {
             if todo.category == nil {
                 if !categoryVM.categories.isEmpty {

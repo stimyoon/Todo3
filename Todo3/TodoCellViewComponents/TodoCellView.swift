@@ -27,13 +27,13 @@ struct TodoCellView: View {
                         
                     }
                 }
-            
                 TextField("enter text",text: $todo.text)
                     .onSubmit {
                         withAnimation {
                             vm.update(todo: todo)
                         }
                     }
+              
                 Spacer()
                 if todo.category != nil {
                         CategoryCellView(category: todo.category!)
@@ -49,7 +49,6 @@ struct TodoCellView: View {
                         DurationView(todo: todo)
                     }
                 }
-            
         }
     }
     private var isDoneImageName : String {
