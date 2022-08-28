@@ -1,0 +1,59 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red115\green167\blue78;\red31\green31\blue36;\red255\green255\blue255;
+\red252\green95\blue163;\red65\green161\blue192;\red158\green241\blue221;\red103\green183\blue164;\red161\green103\blue230;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c44940\c65475\c30460;\csgenericrgb\c12054\c12284\c14131;\csgenericrgb\c100000\c100000\c100000\c85000;
+\csgenericrgb\c98839\c37355\c63833;\csgenericrgb\c25395\c63013\c75478;\csgenericrgb\c62145\c94386\c86819;\csgenericrgb\c40538\c71705\c64209;\csgenericrgb\c63232\c40219\c90115;
+}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 Readme
+\f1\b0 \
+Inspired by Camilla to create a Todo app that takes into account the duration that a todo item will take. Thus the app sorts in the following manner.\
+\
+isDone - not done first\
+priority - highest duration first\
+duration - shortest duration first\
+duedate - the earliest duedate first\
+\
+Also it can be sorted manually but always with the done items lowest.\
+\
+This app works on iphone and ipad and syncs using iCloud. The user should be logged into his or her icloud account to save to icloud and synch across devices.\
+\
+
+\f0\b Technical details:
+\f1\b0 \
+SwiftUI and swift\
+CoreData\
+CoreData UndoManager for undo\
+Uses dependency injection to inject DataService layer into the ListViewModel.\
+CoreDataDataService - Conforms to DataServiceProtocol and is injected into TodoListVM as a dependency using the DataServiceProtocol to allow for loose coupling between the view model and the dataservice.\
+\
+Warning:\
+Using inout to change the todo from the completion handler.\
+\pard\tx840\pardeftab840\pardirnatural\partightenfactor0
+
+\f2\fs34 \cf2 \cb3 // Checks to make sure that we are not adding a todo with a pre-existing id\cf4 \
+    \cf2 // If it is a new todo, it adds it and uses the inout to change the todo to a new\cf4 \
+    \cf2 // todo. This is mainly for the iPad because the detail view does not disappear\cf4 \
+    \cf2 // like it does on an iPhone.\cf4 \
+    
+\f3\b \cf5 func
+\f2\b0 \cf4  \cf6 create\cf4 (\cf6 todo\cf4 : 
+\f3\b \cf5 inout
+\f2\b0 \cf4  \cf7 Todo\cf4 )\{\
+        
+\f3\b \cf5 let
+\f2\b0 \cf4  index = \cf8 todos\cf4 .\cf9 firstIndex\cf4  \{ $0.\cf8 id\cf4  == todo.\cf8 id\cf4  \}\
+        
+\f3\b \cf5 if
+\f2\b0 \cf4  index == 
+\f3\b \cf5 nil
+\f2\b0 \cf4  \{\
+            \cf8 dataservice\cf4 .\cf8 create\cf4 (todo)\
+        \}\
+        todo = \cf7 Todo\cf4 ()\
+    \}}

@@ -9,12 +9,15 @@ import SwiftUI
 
 @main
 struct Todo3App: App {
-    let persistenceController = PersistenceController.shared
-
+    @StateObject var vm = TodoListVM(dataservice: CoreDataDataService())
+    @StateObject var categoryVM = CategoryDataService()
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            NavigationView{
+                TodoListView()
+                    .environmentObject(vm)
+                    .environmentObject(categoryVM)
+            }
         }
     }
 }
